@@ -22,7 +22,7 @@ PUT
 Personel güncellemek için yapılan method. Personel id zorunlu alandır.
 
 POST
-/v1/employee/save
+/v1/employees
 Yeni Personel eklemek için yapılan method.
 
 GET
@@ -34,7 +34,7 @@ GET
 Tüm Personel Kayıtlarını getiren method.
 
 DELETE
-/v1/employee/delete/{id}
+/v1/employees/delete/{employeeId}
 Personel silmek için yapılan method. Personel id si verilen kayıt varsa DB den silinecektir.
 
 company-controller
