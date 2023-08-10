@@ -2,12 +2,12 @@ package com.enoca.project.controller;
 
 import com.enoca.project.mapper.CompanyMapper;
 import com.enoca.project.model.dto.company.request.CompanyCreateRequest;
+import com.enoca.project.model.dto.company.request.CompanyUpdateRequest;
 import com.enoca.project.model.dto.company.response.CompanyGetResponse;
 import com.enoca.project.model.dto.company.response.CompanySavedResponse;
 import com.enoca.project.model.entity.Company;
 import com.enoca.project.service.CompanyService;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +16,6 @@ import java.util.List;
 
 /**
  * Company Entity nesnelerinin yönetiminden sorumlu REST Controller sınıfıdır.
- *
  */
 @RestController
 @RequiredArgsConstructor
@@ -34,7 +33,7 @@ public class CompanyController {
     @PostMapping
     public ResponseEntity<CompanySavedResponse> createCompany(
             @RequestBody CompanyCreateRequest request
-    ){
+    ) {
         final Company company = companyService.createCompany(request);
         final CompanySavedResponse response = CompanyMapper.toSavedResponse(company);
 
@@ -44,12 +43,12 @@ public class CompanyController {
     @GetMapping("/{companyId}")
     public ResponseEntity<?> getCompanyById(
             @PathVariable("companyId") Integer companyId
-    ){
+    ) {
 
         Company company = null;
         try {
             company = companyService.getCompanyById(companyId);
-        } catch (RuntimeException exception){
+        } catch (RuntimeException exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
 
@@ -62,21 +61,27 @@ public class CompanyController {
 
     @GetMapping
     public ResponseEntity<?> getAllCompanies(
-    )
-    {
+    ) {
         final List<Company> companies = companyService.getAllCompanies();
         final List<CompanyGetResponse> responses = CompanyMapper.toGetResponse(companies);
 
         return ResponseEntity.ok(responses);
 
     }
-    @DeleteMapping
-    public ResponseEntity<String> deleteCompany(@PathVariable("companyId") Integer companyId){
-        companyService.deleteCompany(companyId);
-        return new ResponseEntity<>("Company deleted", HttpStatus.OK);
+
+
+    @DeleteMapping("/{companyId}")
+    public ResponseEntity<String> deleteCompany(@PathVariable("companyId") Integer companyId) {
+        companyService.deleteCompanyById(companyId);
+        return new ResponseEntity<String>("Company deleted", HttpStatus.OK);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<?> updateCompany(@RequestBody CompanyUpdateRequest request){
+        final Company company = companyService.updateCompany(request);
+        final CompanySavedResponse response = CompanyMapper.toSavedResponse(company);
 
-
+        return ResponseEntity.ok(response);
+    }
 
 }

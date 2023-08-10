@@ -1,6 +1,7 @@
 package com.enoca.project.mapper;
 
 import com.enoca.project.model.dto.company.request.CompanyCreateRequest;
+import com.enoca.project.model.dto.company.request.CompanyUpdateRequest;
 import com.enoca.project.model.dto.company.response.CompanyGetResponse;
 import com.enoca.project.model.dto.company.response.CompanySavedResponse;
 import com.enoca.project.model.entity.Company;
@@ -29,7 +30,7 @@ public class CompanyMapper {
             Company company
     ){
         return CompanySavedResponse.builder()
-                .id(company.getId())
+                .id(company.getCompanyId())
                 .title(company.getTitle())
                 .taxNumber(company.getTaxNumber())
                 .build();
@@ -39,7 +40,7 @@ public class CompanyMapper {
             Company company
     ) {
         return CompanyGetResponse.builder()
-                .id(company.getId())
+                .id(company.getCompanyId())
                 .title(company.getTitle())
                 .taxNumber(company.getTaxNumber())
                 .build();
@@ -66,6 +67,14 @@ public class CompanyMapper {
         }
 
         return responses;
+    }
+
+    public static Company mapForUpdate(CompanyUpdateRequest request){
+        return Company.builder()
+                .title(request.getTitle())
+                .taxNumber(request.getTaxNumber())
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
 }

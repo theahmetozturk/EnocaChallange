@@ -2,6 +2,7 @@ package com.enoca.project.controller;
 
 import com.enoca.project.mapper.EmployeeMapper;
 import com.enoca.project.model.dto.employee.request.EmployeeCreateRequest;
+import com.enoca.project.model.dto.employee.request.EmployeeUpdateRequest;
 import com.enoca.project.model.dto.employee.response.EmployeeGetResponse;
 import com.enoca.project.model.dto.employee.response.EmployeeSavedResponse;
 import com.enoca.project.model.entity.Employee;
@@ -72,6 +73,21 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable("employeeId") Integer employeeId){
         employeeService.deleteEmployee(employeeId);
         return new ResponseEntity<>("Employee deleted", HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateEmployee(@RequestBody EmployeeUpdateRequest request){
+        Employee employee = null;
+
+        try {
+            employee = employeeService.updateEmployee(request);
+        } catch (RuntimeException exception){
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
+        final EmployeeSavedResponse response = EmployeeMapper.toSavedResponse(employee);
+
+        return ResponseEntity.ok(response);
     }
 
 }

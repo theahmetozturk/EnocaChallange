@@ -1,6 +1,8 @@
 package com.enoca.project.mapper;
 
+import com.enoca.project.model.dto.company.request.CompanyUpdateRequest;
 import com.enoca.project.model.dto.employee.request.EmployeeCreateRequest;
+import com.enoca.project.model.dto.employee.request.EmployeeUpdateRequest;
 import com.enoca.project.model.dto.employee.response.EmployeeGetResponse;
 import com.enoca.project.model.dto.employee.response.EmployeeSavedResponse;
 import com.enoca.project.model.entity.Company;
@@ -65,4 +67,14 @@ public class EmployeeMapper {
         }
         return responses;
     }
+
+    public static Employee mapForUpdate(EmployeeUpdateRequest request){
+        return Employee.builder()
+                .salary(request.getSalary())
+                .name(request.getName())
+                .createdAt(LocalDateTime.now())
+                .build();
+
+    }
+
 }

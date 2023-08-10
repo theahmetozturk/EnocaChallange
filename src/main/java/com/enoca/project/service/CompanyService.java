@@ -2,9 +2,13 @@ package com.enoca.project.service;
 
 import com.enoca.project.mapper.CompanyMapper;
 import com.enoca.project.model.dto.company.request.CompanyCreateRequest;
+import com.enoca.project.model.dto.company.request.CompanyUpdateRequest;
 import com.enoca.project.model.entity.Company;
 import com.enoca.project.repository.CompanyRepository;
+import jakarta.persistence.Id;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CompanyService {
+    @Autowired
     private final CompanyRepository companyRepository;
 
 
@@ -52,8 +57,17 @@ public class CompanyService {
         return companyRepository.findAll();
     }
 
-    public void deleteCompany(Integer companyId) {
-        companyRepository.delete(companyId);
+
+    public String deleteCompanyById(Integer companyId){
+        Company company = getCompanyById(companyId);
+        companyRepository.delete(company);
+        return "Deleted";
+    }
+
+    public Company updateCompany(CompanyUpdateRequest request){
+        Company company = CompanyMapper.mapForUpdate(request);
+        return companyRepository.save(company);
+
     }
 
 }

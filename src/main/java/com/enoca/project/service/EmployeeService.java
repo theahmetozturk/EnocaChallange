@@ -71,4 +71,10 @@ public class EmployeeService {
         return "Deleted!";
     }
 
+
+    public Employee updateEmployee(EmployeeUpdateRequest request){
+        Employee employee = EmployeeMapper.mapForUpdate(request);
+        return employeeRepository.save(employee);
+    }
+
 }

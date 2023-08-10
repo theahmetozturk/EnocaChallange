@@ -19,16 +19,8 @@ public class EmployeeUpdateRequest {
     private String identityNumber;
     private Integer companyId;
 
-    public EmployeeUpdateRequest(Employee employee){
-        id = employee.getId();
-        name = employee.getName();
-        surname = employee.getSurname();
-        salary = employee.getSalary();
-        identityNumber = employee.getIdentityNumber();
-        companyId = employee.getCompany().getId();
-    }
+
     public EmployeeUpdateRequest(Employee employee, Integer companyId){
-        id = employee.getId();
         name = employee.getName();
         surname = employee.getSurname();
         salary = employee.getSalary();
